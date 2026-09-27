@@ -1,67 +1,21 @@
-# Enigma
+<p align="center">
+  <img src="assets/enigma-mark.svg" width="56" height="56" alt="">
+</p>
 
-**Evidence reasoning you can audit. Enigma works out what a body of evidence supports, shows why, and says so plainly when the evidence can't settle the question.**
+<h1 align="center">Enigma</h1>
+
+<p align="center"><strong>Evidence reasoning, not just retrieval.</strong></p>
+
+<p align="center">Enigma works out what a body of evidence supports, shows why, and says so plainly when the evidence can't settle the question: conflicting findings, missing evidence, questions nobody has investigated. Every result traces back to the evidence and the rule that produced it.</p>
+
+<p align="center">
+  <img src="assets/enigma-hero.svg" width="100%" alt="Illustrative diagram with synthetic sources. Eight source reports on the left feed hairlines into Enigma's ordered rules in the middle (investigation, supersession, explicit conflict, adequacy, affirmative negative, scoped support, else fail closed). The rules fan out to six evidence states on the right, each drawn as its own halftone texture: unexplored, contradictory, missing evidence, no relationship, supported, unknown. One highlighted trace runs from a supporting source and a contradicting source through the explicit-conflict rule to the contradictory state.">
+</p>
 
 > [!NOTE]
 > Research-stage project. This repository documents the design, the evidence states, the experimental record, and a synthetic worked example. It does not contain a released implementation yet. The reasoning layer has been through two bounded experiments, one synthetic and one on real research material. It has **not** yet been shown to add value over simpler approaches. That comparison (E5) is planned, and no E5 results exist. See [Current status](#current-status).
 
----
-
-Eight reports on one reading intervention. Most of them say it works. One randomized study says it doesn't. Two of the positive reports describe the same four children. The strongest positive group studies enrolled students with learning disabilities, but the question is about students with intellectual disability. A comprehension result that looked promising was corrected two years later. One "improved reading" finding turns out to be a teacher survey of engagement. Nobody measured whether the gains last.
-
-A summary, human or generated, usually flattens that into one paragraph. Enigma, given explicit facts about each piece of evidence, returns something else: one decision per scoped question, each tied to the evidence and the rule that produced it.
-
-| Question (scoped) | Enigma's result | Why |
-| --- | --- | --- |
-| Fluency, students with mild ID | **Contradictory evidence** | Two independent studies in this population disagree. Both are kept. |
-| Comprehension, students with mild ID | **Missing evidence** | The positive result was corrected. What remains is too imprecise to show an effect *or* rule one out. |
-| Gains maintained after support ends | **Missing evidence** | The corpus was checked. No study measured it. |
-| Fluency, students with learning disability | **Supported** | Two independent direct studies agree. Doesn't transfer to the ID question. |
-| Fluency, students who use AAC | **Unexplored** | Registered as relevant. Nobody has searched yet. |
-
-That table is the synthetic example in [`examples/`](examples/). All studies in it are invented.
-
-## The problem
-
-Evidence synthesis breaks in predictable places:
-
-- **Conflict** gets averaged away, or resolved by whichever study is newest.
-- **Insufficient evidence** gets reported as "no effect."
-- **Population mismatch.** A finding from one group gets applied to another.
-- **Construct mismatch.** "Reading engagement" gets counted as "reading fluency" because the abstract said "improved reading."
-- **Duplicate reports** of one sample get counted as replication.
-- **Superseded results** stay in circulation after a correction or retraction, or older evidence gets dropped just because something newer exists.
-- **Gaps** stay invisible: nobody records the questions no one has investigated.
-
-Retrieval-augmented generation fixes one problem, which is getting relevant text in front of a model. It does little for these. The model still decides, in prose, with no record of which rule it applied.
-
-## What Enigma does
-
-Enigma takes a scoped proposition (*subject, predicate, object, population, setting, time*) and explicit facts about the evidence bearing on it. It then applies a fixed, ordered set of rules and returns:
-
-- a **disposition**, one of six defined evidence states;
-- the **supporting, contradicting, and qualifying evidence**, with source locators;
-- **historical evidence** that was superseded, kept in the record rather than deleted;
-- typed **uncertainty** and the specific **missing evidence**;
-- a **precedence trace** showing which rule fired and why;
-- **provenance**: where each fact came from, what process produced the result, and whether any model or outside knowledge was involved.
-
-When a required fact is missing, Enigma refuses to guess. It returns an explicit "not assessable" outcome instead of a disposition.
-
-## How it differs from summarization and RAG
-
-| | LLM summary / RAG | Enigma |
-| --- | --- | --- |
-| Unit of output | Paragraph | One disposition per scoped proposition |
-| Conflict | Often blended into a hedge | First-class state; both sides preserved |
-| "No significant effect" | Often read as "doesn't work" | Not a negative finding unless an adequacy criterion is met |
-| Newer study | Tends to win implicitly | Replaces older evidence only through an explicit correction, retraction, or replacement |
-| Population / measure differences | Easy to blur | Recorded as qualifications, not counted as support or conflict |
-| Nothing found | Silence, or a guess | `MISSING_EVIDENCE` (looked, not enough) vs. `UNEXPLORED` (not looked yet) |
-| Why this answer? | Re-prompt and hope | Deterministic trace from rule to evidence to source locator |
-| Model knowledge | Mixed in invisibly | Labeled as external; never used to fill a gap in the evidence |
-
-## Architecture
+## How it works
 
 Enigma sits on top of **Palace**, the research, evidence, provenance, and validation infrastructure, which also builds the benchmarks and runs the evaluations. Palace gets evidence into a state where it can be reasoned about: sourced, anchored, hashed, versioned, and checked. Enigma is the reusable reasoning layer over that evidence, and its added value is still to be demonstrated. Applications consume the result.
 
@@ -110,6 +64,68 @@ The split is deliberate. Palace decides *what the record says and where it came 
 | `UNEXPLORED_RELATIONSHIP` | Identified as relevant. No qualifying investigation yet. |
 
 These are kept computationally distinct. None of them can be produced by a missing edge, a null field, a low score, or a default. Operational failures (malformed record, stale input, not assessable) sit on a separate axis and are never reported as evidence states.
+
+## A worked example
+
+Eight reports on one reading intervention. Most of them say it works. One randomized study says it doesn't. Two of the positive reports describe the same four children. The strongest positive group studies enrolled students with learning disabilities, but the question is about students with intellectual disability. A comprehension result that looked promising was corrected two years later. One "improved reading" finding turns out to be a teacher survey of engagement. Nobody measured whether the gains last.
+
+A summary, human or generated, usually flattens that into one paragraph. Enigma, given explicit facts about each piece of evidence, returns something else: one decision per scoped question, each tied to the evidence and the rule that produced it.
+
+| Question (scoped) | Enigma's result | Why |
+| --- | --- | --- |
+| Fluency, students with mild ID | **Contradictory evidence** | Two independent studies in this population disagree. Both are kept. |
+| Comprehension, students with mild ID | **Missing evidence** | The positive result was corrected. What remains is too imprecise to show an effect *or* rule one out. |
+| Gains maintained after support ends | **Missing evidence** | The corpus was checked. No study measured it. |
+| Fluency, students with learning disability | **Supported** | Two independent direct studies agree. Doesn't transfer to the ID question. |
+| Fluency, students who use AAC | **Unexplored** | Registered as relevant. Nobody has searched yet. |
+
+That table is the synthetic example in [`examples/`](examples/). All studies in it are invented.
+
+<p align="center">
+  <img src="assets/enigma-concept.svg" width="100%" alt="Design concept — not current implementation. A mockup of a workspace for inspecting one Enigma result, built from synthetic result P-1: the question and its scope; the resulting state, contradictory evidence; supporting, contradicting, and qualifying-but-not-counted sources; the precedence trace with the explicit-conflict rule firing; the uncertainty; the missing evidence; and a provenance line stating that no model was used.">
+</p>
+
+<p align="center"><em><strong>Design concept — not current implementation.</strong> No Enigma interface exists yet. This mockup shows how result P-1 from the synthetic example could be inspected: the question, the resulting state, supporting and contradicting sources, evidence considered but not counted, the rule trace, uncertainty, missing evidence, and provenance.</em></p>
+
+## The problem
+
+Evidence synthesis breaks in predictable places:
+
+- **Conflict** gets averaged away, or resolved by whichever study is newest.
+- **Insufficient evidence** gets reported as "no effect."
+- **Population mismatch.** A finding from one group gets applied to another.
+- **Construct mismatch.** "Reading engagement" gets counted as "reading fluency" because the abstract said "improved reading."
+- **Duplicate reports** of one sample get counted as replication.
+- **Superseded results** stay in circulation after a correction or retraction, or older evidence gets dropped just because something newer exists.
+- **Gaps** stay invisible: nobody records the questions no one has investigated.
+
+Retrieval-augmented generation fixes one problem, which is getting relevant text in front of a model. It does little for these. The model still decides, in prose, with no record of which rule it applied.
+
+## What Enigma does
+
+Enigma takes a scoped proposition (*subject, predicate, object, population, setting, time*) and explicit facts about the evidence bearing on it. It then applies a fixed, ordered set of rules and returns:
+
+- a **disposition**, one of six defined evidence states;
+- the **supporting, contradicting, and qualifying evidence**, with source locators;
+- **historical evidence** that was superseded, kept in the record rather than deleted;
+- typed **uncertainty** and the specific **missing evidence**;
+- a **precedence trace** showing which rule fired and why;
+- **provenance**: where each fact came from, what process produced the result, and whether any model or outside knowledge was involved.
+
+When a required fact is missing, Enigma refuses to guess. It returns an explicit "not assessable" outcome instead of a disposition.
+
+## How it differs from summarization and RAG
+
+| | LLM summary / RAG | Enigma |
+| --- | --- | --- |
+| Unit of output | Paragraph | One disposition per scoped proposition |
+| Conflict | Often blended into a hedge | First-class state; both sides preserved |
+| "No significant effect" | Often read as "doesn't work" | Not a negative finding unless an adequacy criterion is met |
+| Newer study | Tends to win implicitly | Replaces older evidence only through an explicit correction, retraction, or replacement |
+| Population / measure differences | Easy to blur | Recorded as qualifications, not counted as support or conflict |
+| Nothing found | Silence, or a guess | `MISSING_EVIDENCE` (looked, not enough) vs. `UNEXPLORED` (not looked yet) |
+| Why this answer? | Re-prompt and hope | Deterministic trace from rule to evidence to source locator |
+| Model knowledge | Mixed in invisibly | Labeled as external; never used to fill a gap in the evidence |
 
 ## Current validation domain
 
@@ -185,6 +201,12 @@ If E5 shows no added value from Enigma, the roadmap changes. The evidence-state 
 │   ├── README.md                how to read the example
 │   ├── example_input.json       synthetic evidence set (invented studies)
 │   └── example_output.json      Enigma-style result for that input
+├── assets/
+│   ├── README.md                visual language, palette, and asset provenance
+│   ├── enigma-mark.svg          project mark
+│   ├── enigma-hero.svg          concept illustration (sources → rules → states)
+│   ├── enigma-concept.svg       interface design concept (not implemented)
+│   └── src/build_assets.py      generates the SVGs (standard-library Python, seeded)
 └── CONTRIBUTING.md
 ```
 
