@@ -6,7 +6,7 @@ Enigma is research-stage. There's no public implementation to patch yet, so the 
 
 - **Challenges to the evidence states.** A realistic case the six states can't represent, or one where two states can't be told apart.
 - **Challenges to the rules.** A case where the precedence order gives a wrong or misleading answer.
-- **Methodology critique.** Weak controls, missing baselines, or ways the E5 design could be gamed or could mislead.
+- **Methodology critique.** Weak controls, missing baselines, or ways a comparison of Enigma against simpler approaches could be gamed or could mislead.
 - **Prior work.** Related systems or literature in evidence synthesis, argumentation, or provenance that this should be compared against.
 - **Unclear documentation.** If something took more than one read, that's a bug.
 

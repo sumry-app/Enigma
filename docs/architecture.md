@@ -4,10 +4,10 @@ This page covers how Palace and Enigma divide the work, what flows between them,
 
 | Label | Meaning here |
 | --- | --- |
-| **Implemented** | Code exists and has automated tests (in the private research repository) |
-| **Experimental** | Exists as experiment code under a frozen protocol; not a library or service |
-| **Specified** | Defined in a frozen design contract; no runtime yet |
-| **Planned** | Intended; design not frozen |
+| **Implemented** | Code exists (in the private research repository) |
+| **Tested** | Automated tests or a frozen experiment exercise it |
+| **Experimental** | Exists only as experiment code under a frozen protocol; not a library or service |
+| **Planned** | Intended. May have a frozen written design, but no code |
 
 ## Contents
 
@@ -47,11 +47,11 @@ Palace is the evidence and validation layer. Most of it predates the Enigma expe
 | Canonical record | Plain-text (Markdown) notes under version control. An accepted revision is the authoritative record. Everything else is derived from it. | Implemented |
 | Claim-evidence ledger | Structured records for sources, exact evidence anchors, claims, typed relations (`supports`, `contradicts`, `qualifies`, `supersedes`, and others), and artifacts that use them. Anchors carry text hashes so an excerpt can be checked against its source. | Implemented, tested |
 | Metadata integrity | Checks bibliographic metadata (e.g. DOI, authors, year) against an external registry. Report-only: it flags mismatches, it doesn't rewrite. It checks *identity*, not evidence quality. | Implemented, tested |
-| Literature acquisition | Turns a bibliography into a verified, deduplicated corpus with provenance records. Retrieves full text only through legal open-access routes. | Implemented; second independent review pending |
+| Literature acquisition | Turns a bibliography into a verified, deduplicated corpus with provenance records. Retrieves full text only through legal open-access routes. | Implemented, tested; second independent review pending |
 | Evidence graph | Deterministic, disposable graph built only from explicit links and ledger relations. | Implemented, tested |
 | Retrieval | Section-aware semantic search that returns passages with exact note/section/line attribution. Used for candidate recall only. Similarity is never treated as evidence. | Implemented, tested |
 | Derivative rebuild | Indexes, review queues, and graph/retrieval stores can be deleted and rebuilt from the canonical record. | Implemented, tested |
-| Evidence-state and provenance contract | The semantics in sections 4–7 below: six states, orthogonal provenance axes, fail-closed behavior, 24 architectural invariants. | Specified |
+| Evidence-state and provenance contract | The semantics in sections 4–7 below: six states, orthogonal provenance axes, fail-closed behavior, 24 architectural invariants. | Planned as a runtime; design frozen |
 | Benchmark and experiment harness | Frozen protocols, deterministic runners, byte-identical re-run checks. | Implemented for E3/E4 |
 
 What Palace deliberately does **not** do: infer that two things are unrelated because no edge connects them, treat a `[!gap]`-style human annotation as a finding, or merge two records because their titles look alike.
@@ -170,11 +170,11 @@ Uncertainty is recorded by kind rather than as a scalar: epistemic unknown, insu
 
 ### Transitions
 
-A new assessment never overwrites an old one. Each transition records the trigger, the evidence or coverage that changed, who or what acted, and when. `UNEXPLORED → MISSING_EVIDENCE` after a search comes up short. `SUPPORTED → CONTRADICTORY` when compatible counterevidence appears, with the earlier support still visible. Returning to `UNEXPLORED` for the same proposition is normally invalid, because exploration history exists. *(Specified; transition history is not implemented.)*
+A new assessment never overwrites an old one. Each transition records the trigger, the evidence or coverage that changed, who or what acted, and when. `UNEXPLORED → MISSING_EVIDENCE` after a search comes up short. `SUPPORTED → CONTRADICTORY` when compatible counterevidence appears, with the earlier support still visible. Returning to `UNEXPLORED` for the same proposition is normally invalid, because exploration history exists. *(Planned: designed, not implemented.)*
 
 ## 7. The precedence rules
 
-Status: **Experimental.** Implemented as experiment code in E3 and E4.
+Status: **Experimental, tested.** Exists as experiment code, exercised in E3 and E4.
 
 The rules are applied in a fixed order. The first rule that matches decides.
 
@@ -203,7 +203,7 @@ Some consequences of the ordering:
 - **Recency is not a rule.** A newer study with the opposite result is a conflict unless there's an explicit correction, retraction, or replacement.
 - **Nothing else votes.** Source count, publication year, confidence scores, sample size on its own, graph connectivity, and retrieval similarity are not inputs to the decision.
 
-The rules are simple by design. Their value, if they have any, lies in making each judgment explicit and inspectable, not in clever inference. Whether that's worth a dedicated layer, compared with handing the same facts to a language model or a plain lookup table, is exactly what E5 tests.
+The rules are simple by design. Their value, if they have any, lies in making each judgment explicit and inspectable, not in clever inference. Whether that's worth a dedicated layer, compared with handing the same facts to a language model or a plain lookup table, is what the planned E5 comparison is meant to test.
 
 ## 8. Common evidence problems and how they're represented
 
@@ -218,9 +218,9 @@ The rules are simple by design. Their value, if they have any, lies in making ea
 | Newer evidence that merely disagrees | Conflict, not supersession | Yes (E3, synthetic) |
 | Duplicate reports counted as replication | Lineage: same `study_id` counts once | Yes (E3, synthetic) |
 | Qualification mistaken for conflict | `QUALIFIES` relation; not counted as conflict | Yes (E3, synthetic) |
-| Population mismatch | Scope is part of the proposition; mismatched evidence is `QUALIFIES` for that scope, and the other population gets its own proposition | Specified; not separately benchmarked |
-| Different constructs treated as equivalent | `QUALIFIES` with a construct-mismatch note; not counted as support | Specified; not separately benchmarked |
-| Failed replication | Conflict between independent studies (lineage makes independence checkable) | Specified; covered indirectly by conflict probes |
+| Population mismatch | Scope is part of the proposition; mismatched evidence is `QUALIFIES` for that scope, and the other population gets its own proposition | Representable; not separately tested |
+| Different constructs treated as equivalent | `QUALIFIES` with a construct-mismatch note; not counted as support | Representable; not separately tested |
+| Failed replication | Conflict between independent studies (lineage makes independence checkable) | Representable; covered only indirectly by conflict probes |
 | Missing required input | `NOT_ASSESSABLE`, never a guessed state | Yes (E4, real material) |
 
 "Tested" here means tested on the probes described. It does not mean accuracy has been established on real literature.
@@ -234,14 +234,14 @@ The rules are simple by design. Their value, if they have any, lies in making ea
 | Retrieval | Ranking is model-based (embeddings) | Candidate recall only. Can't create support, conflict, or a state | Implemented |
 | Precedence rules | Yes | None | Experimental |
 | Fact encoding (investigation, adequacy, conflict, supersession) | No: judgment | Currently human. Model-assisted extraction would enter only as labeled *proposals* | Human today; model assistance is an open question |
-| Comparison baselines in E5 | n/a | Language models are used as *comparison conditions*, not as part of Enigma | Designed |
+| Comparison baselines in E5 | n/a | Simpler approaches, which may include language models, serve as *comparison conditions*, not as part of Enigma | Planned |
 | Gap significance | n/a | Not designed. Must be explainable from evidence structure, never from graph density or model confidence | Planned |
 
 In E3 and E4, the deterministic path received no model-supplied facts, and no model produced a disposition. E2 had already found that the earlier standalone Enigma design showed no advantage over a model resolving states directly, so the current approach tries to justify each step against that baseline instead of assuming a model is either the answer or the enemy.
 
 ## 10. Validation philosophy
 
-- **Test the claim you're about to make, against the cheapest thing that could replace it.** E5 exists because "Enigma gets the right answer" is not enough. It has to be better than a model given the same facts, or a plain rule table.
+- **Test the claim you're about to make, against the cheapest thing that could replace it.** E5 is planned because "Enigma gets the right answer" is not enough. It has to beat simpler approaches given the same information.
 - **Freeze before running.** Protocols are hashed before execution. Changes after that need a recorded amendment.
 - **Say what would count as failure, in advance.** Each experiment states hypotheses and decision consequences before results exist.
 - **Abstention is not success.** A system that refuses everything never asserts anything false. Safety and coverage are reported together.
@@ -252,7 +252,7 @@ More in [methodology.md](methodology.md).
 
 ## 11. Open questions
 
-- Can the typed facts be encoded reproducibly from real literature by independent readers? (E5 includes this.)
+- Can the typed facts be encoded reproducibly from real literature by independent readers?
 - Does typed structure help a language model as much as it would help a rule layer? If so, what is the rule layer for?
 - How should population and construct mismatch be detected, not just represented?
 - What does an explainable "this gap matters" signal look like, without collapsing into a graph score?

@@ -3,7 +3,7 @@
 **Evidence reasoning you can audit. Enigma works out what a body of evidence supports, shows why, and says so plainly when the evidence can't settle the question.**
 
 > [!NOTE]
-> Research-stage project. This repository documents the design, the evidence states, the experimental record, and a synthetic worked example. It does not contain a released implementation yet. The reasoning layer has been through two bounded experiments, one synthetic and one on real research material. It has **not** yet been shown to beat simpler alternatives. That comparison is the next experiment. See [Current status](#current-status).
+> Research-stage project. This repository documents the design, the evidence states, the experimental record, and a synthetic worked example. It does not contain a released implementation yet. The reasoning layer has been through two bounded experiments, one synthetic and one on real research material. It has **not** yet been shown to add value over simpler approaches. That comparison (E5) is planned, and no E5 results exist. See [Current status](#current-status).
 
 ---
 
@@ -63,13 +63,13 @@ When a required fact is missing, Enigma refuses to guess. It returns an explicit
 
 ## Architecture
 
-Enigma sits on top of **Palace**, the evidence and validation infrastructure. Palace gets evidence into a state where it can be reasoned about: sourced, anchored, hashed, versioned, and checked. Enigma does the reasoning. Applications consume the result.
+Enigma sits on top of **Palace**, the research, evidence, provenance, and validation infrastructure, which also builds the benchmarks and runs the evaluations. Palace gets evidence into a state where it can be reasoned about: sourced, anchored, hashed, versioned, and checked. Enigma is the reusable reasoning layer over that evidence, and its added value is still to be demonstrated. Applications consume the result.
 
 ```mermaid
 flowchart TD
     R["Research and evidence<br/>studies · reports · corrections · reviews"]
 
-    subgraph PALACE["PALACE · evidence infrastructure"]
+    subgraph PALACE["PALACE · research, evidence, and validation infrastructure"]
         direction TB
         P1["Acquisition and metadata integrity"]
         P2["Claim-evidence ledger<br/>exact anchors · hashes · typed relations"]
@@ -79,7 +79,7 @@ flowchart TD
 
     S["Scoped propositions<br/>+ typed evidence facts with provenance"]
 
-    subgraph ENIGMA["ENIGMA · evidence reasoning"]
+    subgraph ENIGMA["ENIGMA · evidence-reasoning layer (experimental)"]
         direction TB
         E1["Deterministic precedence rules"]
         E2["Fail-closed checks"]
@@ -87,7 +87,7 @@ flowchart TD
     end
 
     O["Disposition + supporting / conflicting evidence<br/>+ gaps · uncertainty · provenance"]
-    A["Downstream applications<br/>e.g. Sumry, special-education tooling"]
+    A["Downstream applications<br/>e.g. Sumry, privacy-protected SPED app"]
 
     R --> PALACE
     PALACE --> S
@@ -121,22 +121,29 @@ The architecture itself is domain-neutral. Nothing in the evidence states or rul
 
 Status as of September 2026. Full detail in [docs/current-status.md](docs/current-status.md).
 
+Four labels are used throughout:
+
+- **Implemented**: code exists.
+- **Tested**: automated tests or a frozen experiment exercise it.
+- **Experimental**: exists only as experiment code under a frozen protocol, not as a library or service.
+- **Planned**: intended. It may have a written design, but no code.
+
 | Component | State |
 | --- | --- |
-| Palace: claim-evidence ledger, metadata integrity checks, evidence graph, retrieval with line-level attribution | **Implemented and tested** (private research repository) |
-| Palace: literature-acquisition pipeline | **Implemented**; awaiting a second independent review |
-| Evidence-state and provenance contract | **Specified**; frozen design document |
-| Enigma deterministic reasoning layer | **Experimental**; exists as experiment code, not as a service or library |
-| Automatic extraction of the typed facts from real literature | **Not working yet**. See E4 below |
-| Comparison against simpler alternatives (E5) | **Designed, not run.** No results exist |
+| Palace: claim-evidence ledger, metadata integrity checks, evidence graph, retrieval with line-level attribution | **Implemented, Tested** (private research repository) |
+| Palace: literature-acquisition pipeline | **Implemented, Tested**; awaiting a second independent review |
+| Evidence states, provenance axes, invariants | **Planned** as a runtime; the semantics are fixed in a frozen design document |
+| Enigma deterministic reasoning layer | **Experimental**; tested in E3 (synthetic) and E4 (real material) |
+| Automatic extraction of the typed facts from real literature | **Experimental, not working yet**. See E4 below |
+| E5: comparison of simpler approaches against Enigma | **Planned.** No E5 results exist |
 | Significance ranking of gaps, user interface | **Planned** |
 
 **Experimental record, briefly:**
 
-- **E1–E2. Standalone Enigma: stopped.** An earlier design ran Enigma as a standalone classifier with a larger state vocabulary. It showed no advantage over a frontier language model given the same evidence and provenance, and the decisive facts lived in free text where no honest deterministic resolver could reach them. That design was stopped.
+- **E2. Standalone Enigma: stopped, then repositioned.** An earlier design ran Enigma as a standalone classifier with a larger state vocabulary. It showed no advantage over a frontier language model given the same evidence and provenance, and the decisive facts lived in free text where no honest deterministic resolver could reach them. That design was stopped. Enigma was not dropped. It was narrowed into a bounded reasoning layer that sits on Palace's evidence infrastructure, and that layer has to prove its worth.
 - **E3. Representation feasibility: passed, narrowly.** On 12 synthetic, hand-built probes, the deterministic layer returned the expected state in 12/12 cases versus 5/12 for a baseline without typed facts, with a complete audit trace for every decision. This shows the representation is *sufficient*. It says nothing yet about real-world accuracy.
-- **E4. Real-corpus derivability: gap confirmed.** On real special-education research notes, the deterministic extractor could not derive the key facts (investigation status, adequacy, conflict) for any of the 12 admitted propositions, and correctly abstained every time: zero fabricated dispositions. A human reader recovered many of those facts from the same material. That gap is the current bottleneck.
-- **E5. Decision gate: next, not yet run.** As designed: held-out real cases, equal information, and simpler conditions (a language model given the facts as prose, the same model given typed facts, a plain rule table) run against the Enigma layer. If the simpler conditions match Enigma, the Enigma-specific layer hasn't earned its place, and that gets reported as the result.
+- **E4. Real-corpus derivability: gap confirmed.** On real special-education research notes, the deterministic extractor could not derive the key facts (investigation status, adequacy, conflict) for any of the 12 admitted propositions, and correctly abstained every time: zero fabricated dispositions. A human reader recovered many of those facts from the same material. That gap is the current bottleneck. It also means a stronger controlled comparison is needed before anyone can say whether Enigma adds value.
+- **E5. Planned decision gate.** The next evaluation is planned to compare simpler approaches against the Enigma reasoning approach. If the simpler approaches do as well, Enigma hasn't earned its place as a separate layer, and that is the result that gets reported. E5 has not been run. No E5 results exist.
 
 ## Principles
 
@@ -146,24 +153,24 @@ Status as of September 2026. Full detail in [docs/current-status.md](docs/curren
 4. **Disagreement is preserved.** Conflict is not resolved by majority, recency, or confidence.
 5. **Scope qualifies every claim.** Population, measure, setting, and time are part of the proposition.
 6. **Models propose; evidence decides.** Model output stays labeled as model output. External model knowledge never fills a gap in the evidence.
-7. **Prove it against something simpler.** Each layer has to beat a cheaper alternative under equal information, or it goes.
+7. **Prove it against something simpler.** A layer that can't beat a cheaper alternative given the same information shouldn't exist.
 
 ## Roadmap
 
 Ordered, not dated. Each step depends on the result of the one before it.
 
 - [x] Evidence infrastructure: ledger, integrity checks, graph, retrieval (Palace)
-- [x] Evidence-state and provenance contract
+- [x] Evidence-state and provenance contract (frozen design document; runtime planned)
 - [x] E3: synthetic representation feasibility
 - [x] E4: real-corpus derivability and fail-closed behavior
-- [ ] **E5: controlled comparison against simpler alternatives** ← decision gate
+- [ ] **E5: controlled comparison of simpler approaches against Enigma** ← decision gate (planned; no results yet)
 - [ ] Depending on E5: reproducible fact encoding on real literature (human-first, model-assisted only as labeled proposals)
 - [ ] Depending on E5: a public reference implementation of the reasoning layer
 - [ ] Gap significance ("which unknowns matter most"), explainable rather than a single score
 - [ ] Interfaces for downstream applications
 - [ ] Validation in a second domain outside special education
 
-If E5 comes back negative for the Enigma-specific layer, the roadmap changes. The evidence-state vocabulary and provenance model can still stand on their own.
+If E5 shows no added value from Enigma, the roadmap changes. The evidence-state vocabulary and provenance model can still stand on their own.
 
 ## Repository layout
 
@@ -183,8 +190,8 @@ If E5 comes back negative for the Enigma-specific layer, the roadmap changes. Th
 
 ## Relationship to other projects
 
-- **Palace** is Enigma's infrastructure layer. It is described here but developed in a private research repository alongside the experiments.
-- **Sumry** is a separate special-education application that may use Enigma later. This repository is not about Sumry.
+- **Palace** is the research, evidence, provenance, and validation infrastructure underneath Enigma. It is described here but developed in a private research repository alongside the experiments.
+- **Sumry** is a separate, privacy-protected special-education (SPED) application that may use Enigma later. No student data comes into this repository, and this repository is not about Sumry.
 
 ## License
 

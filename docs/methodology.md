@@ -4,7 +4,7 @@ A project that says it tells people what evidence supports has to hold its own c
 
 ## Experiments are decision gates
 
-Each experiment exists to decide something about the architecture: continue, narrow, or stop. It is not run to produce a headline number. E2 stopped the original standalone design. E3 and E4 each authorized one narrow next step and explicitly ruled out others. E4, for example, could not be used to justify new infrastructure, a larger state vocabulary, a classifier, or interface work, whatever its outcome. E5 will decide whether a dedicated reasoning layer is justified at all.
+Each experiment exists to decide something about the architecture: continue, narrow, or stop. It is not run to produce a headline number. E2 stopped the original standalone design. E3 and E4 each authorized one narrow next step and explicitly ruled out others. E4, for example, could not be used to justify new infrastructure, a larger state vocabulary, a classifier, or interface work, whatever its outcome. E5, which is planned and not yet run, is meant to decide whether a dedicated reasoning layer is justified at all.
 
 ## Before running
 
@@ -15,9 +15,9 @@ Each experiment exists to decide something about the architecture: continue, nar
 
 ## Designing comparisons
 
-- **Compare against the cheapest credible alternative.** A language model given the same facts, and a plain rule table, are required controls in E5. If they match the proposed layer, the layer loses.
+- **Compare against the cheapest credible alternative.** A proposed layer is compared against simpler approaches. If they match it, the layer loses.
 - **Equal information.** Conditions receive the same facts, sources, provenance, scope, and decision obligations. A condition can't win because it saw a richer evidence packet.
-- **Held-out material.** For E5, the cases that decide the gate are kept apart from anything used to design or tune the conditions. (E3's probes were not held out; see limitations below.)
+- **Held-out material.** Cases that decide a comparative gate should be kept apart from anything used to design or tune what's being compared. E3's probes were not held out (see limitations below).
 - **Synthetic vs. real.** Synthetic probes can show that a representation is sufficient. Only real material can show that it's usable. The two are reported separately and never averaged.
 
 ## Reporting
@@ -43,5 +43,5 @@ Interpretation and audit are separate steps from execution. In E4, one review in
 
 - **Small numbers.** E3 had 12 probes. E4 had 12 aligned real propositions. These are gate-sized, not generalizable-accuracy-sized.
 - **One domain so far.** All real-material work has been in special-education research.
-- **Human reference passes are not gold standards.** E4 used one reader. E5 is designed with multiple independent readers and recorded disagreement.
+- **Human reference passes are not gold standards.** E4 used one reader.
 - **Self-built probes.** Synthetic probes written by the same project that wrote the rules can confirm internal consistency and nothing more.
