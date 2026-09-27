@@ -1,0 +1,153 @@
+{
+  "_notice": "SYNTHETIC DEMONSTRATION OUTPUT. Hand-constructed to show the shape of an Enigma result for examples/example_input.json. It was not produced by a released implementation. The dispositions follow the deterministic precedence rules described in docs/architecture.md. All studies and findings are invented.",
+  "schema": "enigma-example/0.1",
+  "question": "Does the Paired Rehearsal Routine (PRR) improve reading outcomes for students with mild intellectual disability in grades 3-5?",
+  "question_view": {
+    "note": "Presentation roll-up only. Enigma does not merge the per-proposition dispositions into one verdict.",
+    "short_answer": "The evidence does not settle it. Fluency results conflict in the target population. The comprehension result that looked positive was corrected and is now too imprecise to use. Nobody measured maintenance. The one clearly supported finding is about a different population.",
+    "by_proposition": [
+      { "proposition_id": "P-1", "reads_as": "PRR -> fluency, mild ID, grades 3-5", "disposition": "CONTRADICTORY_EVIDENCE" },
+      { "proposition_id": "P-2", "reads_as": "PRR -> comprehension, mild ID, grades 4-5", "disposition": "MISSING_EVIDENCE" },
+      { "proposition_id": "P-3", "reads_as": "PRR fluency gains maintained 8+ weeks after withdrawal, mild ID", "disposition": "MISSING_EVIDENCE" },
+      { "proposition_id": "P-4", "reads_as": "PRR -> fluency, specific learning disability, grades 3-5", "disposition": "SUPPORTED_RELATIONSHIP" },
+      { "proposition_id": "P-5", "reads_as": "PRR -> fluency, mild ID students who use AAC", "disposition": "UNEXPLORED_RELATIONSHIP" }
+    ]
+  },
+  "results": [
+    {
+      "proposition_id": "P-1",
+      "statement": "PRR improves oral reading fluency (immediate posttest) for students with mild intellectual disability, grades 3-5, in small-group school settings.",
+      "operational_status": "ASSESSED",
+      "disposition": "CONTRADICTORY_EVIDENCE",
+      "why": "Two independent studies in the target population measured the same outcome and disagree. S-02 (single-case, n=4) supports an effect. S-04 (randomized, n=58) reports no difference and an interval that excludes the S-02 effect size. The disagreement is kept, not averaged, and not resolved by sample size or recency.",
+      "current_evidence": {
+        "supporting": [
+          { "evidence_id": "ev-02", "source_id": "S-02", "locator": "S-02:results:figure-1", "independent_study": "study-B" },
+          { "evidence_id": "ev-03", "source_id": "S-03", "locator": "S-03:results:p2", "independent_study": "study-B", "caution": "Same sample as S-02. Counted once." }
+        ],
+        "contradicting": [
+          { "evidence_id": "ev-04", "source_id": "S-04", "locator": "S-04:results:table-3", "independent_study": "study-C" }
+        ],
+        "qualifying_not_counted": [
+          { "evidence_id": "ev-01", "source_id": "S-01", "reason": "POPULATION_MISMATCH", "detail": "Students with specific learning disability. See P-4 for that scope." },
+          { "evidence_id": "ev-07", "source_id": "S-07", "reason": "CONSTRUCT_MISMATCH", "detail": "Measures teacher-rated engagement. The abstract calls it 'improved reading'; the measure is not fluency." }
+        ]
+      },
+      "historical_evidence": [],
+      "uncertainty": [
+        { "kind": "CONFLICTING_EVIDENCE", "detail": "Independent direct studies disagree on the same outcome in the same population." }
+      ],
+      "missing_evidence": [
+        "An independent replication in this population with a design able to separate the S-02 and S-04 explanations (for example, differences in dosage or grade band)."
+      ],
+      "precedence_trace": [
+        { "rule": "investigation", "matched": false, "detail": "COMPLETE" },
+        { "rule": "supersession", "matched": false, "detail": { "excluded_historical_evidence_ids": [] } },
+        { "rule": "explicit_conflict", "matched": true, "detail": "PRESENT", "result": "CONTRADICTORY_EVIDENCE" }
+      ]
+    },
+    {
+      "proposition_id": "P-2",
+      "statement": "PRR improves passage comprehension (immediate posttest) for students with mild intellectual disability, grades 4-5.",
+      "operational_status": "ASSESSED",
+      "disposition": "MISSING_EVIDENCE",
+      "why": "The original positive result (S-05) was replaced by a published correction (S-06). The corrected estimate is non-significant with a wide interval. A non-significant result is not an affirmative finding of no effect, so NO_RELATIONSHIP is not available. The declared adequacy criterion is not met.",
+      "current_evidence": {
+        "supporting": [],
+        "contradicting": [],
+        "qualifying_not_counted": [
+          { "evidence_id": "ev-06", "source_id": "S-06", "reason": "IMPRECISE", "detail": "Corrected estimate neither supports nor rules out an effect." }
+        ]
+      },
+      "historical_evidence": [
+        { "evidence_id": "ev-05", "source_id": "S-05", "superseded_by": "ev-06", "kind": "CORRECTED", "note": "Kept in the record. Excluded from the current judgment because an explicit correction replaces it, not because it is older." }
+      ],
+      "uncertainty": [
+        { "kind": "INSUFFICIENT_EVIDENCE", "detail": "No direct test precise enough to support an effect or an affirmative absence of effect." }
+      ],
+      "missing_evidence": [
+        "A direct, adequately precise test of comprehension in this population, preferably with a standardized measure."
+      ],
+      "precedence_trace": [
+        { "rule": "investigation", "matched": false, "detail": "COMPLETE" },
+        { "rule": "supersession", "matched": true, "detail": { "excluded_historical_evidence_ids": ["ev-05"] } },
+        { "rule": "explicit_conflict", "matched": false, "detail": "ABSENT" },
+        { "rule": "evidence_adequacy", "matched": true, "detail": "INADEQUATE", "result": "MISSING_EVIDENCE" }
+      ]
+    },
+    {
+      "proposition_id": "P-3",
+      "statement": "PRR fluency gains are maintained 8 or more weeks after the routine is withdrawn, for students with mild intellectual disability.",
+      "operational_status": "ASSESSED",
+      "disposition": "MISSING_EVIDENCE",
+      "why": "The corpus was screened for follow-up data. No report measured fluency after withdrawal. This is a documented shortfall inside a declared corpus, not a claim that such evidence does not exist anywhere.",
+      "current_evidence": { "supporting": [], "contradicting": [], "qualifying_not_counted": [] },
+      "historical_evidence": [],
+      "uncertainty": [
+        { "kind": "INSUFFICIENT_EVIDENCE", "detail": "Evidence obligation (post-withdrawal measurement) unmet in the declared corpus." }
+      ],
+      "missing_evidence": [
+        "Any direct measurement of fluency at least 8 weeks after PRR support ends."
+      ],
+      "precedence_trace": [
+        { "rule": "investigation", "matched": false, "detail": "COMPLETE" },
+        { "rule": "supersession", "matched": false, "detail": { "excluded_historical_evidence_ids": [] } },
+        { "rule": "explicit_conflict", "matched": false, "detail": "ABSENT" },
+        { "rule": "evidence_adequacy", "matched": true, "detail": "INADEQUATE", "result": "MISSING_EVIDENCE" }
+      ]
+    },
+    {
+      "proposition_id": "P-4",
+      "statement": "PRR improves oral reading fluency (immediate posttest) for students with specific learning disability, grades 3-5.",
+      "operational_status": "ASSESSED",
+      "disposition": "SUPPORTED_RELATIONSHIP",
+      "why": "Two independent group studies in this population report the same direction on a direct fluency measure, and nothing in scope contradicts them. The support is scoped: it does not transfer to students with intellectual disability (see P-1).",
+      "current_evidence": {
+        "supporting": [
+          { "evidence_id": "ev-01b", "source_id": "S-01", "locator": "S-01:results:table-2", "independent_study": "study-A" },
+          { "evidence_id": "ev-08", "source_id": "S-08", "locator": "S-08:results:table-2", "independent_study": "study-F" }
+        ],
+        "contradicting": [],
+        "qualifying_not_counted": []
+      },
+      "historical_evidence": [],
+      "uncertainty": [],
+      "missing_evidence": [
+        "No maintenance data for this population either. That would be a separate proposition."
+      ],
+      "precedence_trace": [
+        { "rule": "investigation", "matched": false, "detail": "COMPLETE" },
+        { "rule": "supersession", "matched": false, "detail": { "excluded_historical_evidence_ids": [] } },
+        { "rule": "explicit_conflict", "matched": false, "detail": "ABSENT" },
+        { "rule": "evidence_adequacy", "matched": false, "detail": "ADEQUATE" },
+        { "rule": "scoped_support", "matched": true, "result": "SUPPORTED_RELATIONSHIP" }
+      ]
+    },
+    {
+      "proposition_id": "P-5",
+      "statement": "PRR improves oral reading fluency for students with mild intellectual disability who use AAC.",
+      "operational_status": "ASSESSED",
+      "disposition": "UNEXPLORED_RELATIONSHIP",
+      "why": "The question was registered as relevant (PRR depends on oral rehearsal), but no search or screening has been done for this scope. Unexplored is different from unknown: nobody has looked yet.",
+      "current_evidence": { "supporting": [], "contradicting": [], "qualifying_not_counted": [] },
+      "historical_evidence": [],
+      "uncertainty": [
+        { "kind": "UNEXAMINED_AREA", "detail": "Relevant proposition without qualifying investigation." }
+      ],
+      "missing_evidence": [
+        "A search for studies of PRR, or oral-rehearsal routines generally, with AAC users."
+      ],
+      "precedence_trace": [
+        { "rule": "investigation", "matched": true, "detail": "NOT_STARTED", "result": "UNEXPLORED_RELATIONSHIP" }
+      ]
+    }
+  ],
+  "provenance": {
+    "corpus_snapshot": "demo-corpus@v1",
+    "facts_origin": "Typed facts (investigation, adequacy, conflict, supersession, evidence relations) were supplied in the input by a human annotator. Enigma did not extract them.",
+    "process": "Deterministic precedence rules: investigation, supersession, explicit conflict, evidence adequacy, affirmative negative, scoped support, fail closed.",
+    "model_use": "None. No language model contributed to any disposition in this example.",
+    "externality": "Corpus-only. No knowledge from outside the declared corpus was used.",
+    "not_used_to_decide": ["publication year", "number of sources", "sample size alone", "confidence scores", "graph connectivity"]
+  }
+}

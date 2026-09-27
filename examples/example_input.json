@@ -1,0 +1,208 @@
+{
+  "_notice": "SYNTHETIC DEMONSTRATION DATA. Every study, author label, sample, number, and finding in this file is invented. 'Paired Rehearsal Routine' is a fictional intervention. Nothing here is a claim about real research, real students, or any real instructional practice.",
+  "schema": "enigma-example/0.1",
+  "question": "Does the Paired Rehearsal Routine (PRR) improve reading outcomes for students with mild intellectual disability in grades 3-5?",
+  "corpus": {
+    "snapshot": "demo-corpus@v1",
+    "boundary": "The eight synthetic reports below. No other material is in scope.",
+    "search_protocol": "Every report in the corpus was screened against each proposition by one annotator, then checked by a second.",
+    "known_omissions": [
+      "No unpublished or grey literature is in the corpus.",
+      "No study in the corpus enrolled students who use AAC."
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "S-01",
+      "label": "Synthetic Study A (2016)",
+      "design": "cluster-randomized group comparison",
+      "population": "students with specific learning disability",
+      "grades": "3-5",
+      "n": 112,
+      "outcome_measure": "oral reading fluency, words correct per minute",
+      "reported_result": "PRR group gained more words correct per minute than business-as-usual at posttest.",
+      "locator": "S-01:results:table-2",
+      "lineage": { "study_id": "study-A", "report_id": "report-A1", "derived_from": [] }
+    },
+    {
+      "source_id": "S-02",
+      "label": "Synthetic Study B (2018)",
+      "design": "multiple-baseline single-case design",
+      "population": "students with mild intellectual disability",
+      "grades": "3-4",
+      "n": 4,
+      "outcome_measure": "oral reading fluency, words correct per minute",
+      "reported_result": "All four participants showed a level change in fluency after PRR was introduced.",
+      "locator": "S-02:results:figure-1",
+      "lineage": { "study_id": "study-B", "report_id": "report-B1", "derived_from": [] }
+    },
+    {
+      "source_id": "S-03",
+      "label": "Synthetic Study B, conference report (2019)",
+      "design": "re-report of the Study B sample",
+      "population": "students with mild intellectual disability",
+      "grades": "3-4",
+      "n": 4,
+      "outcome_measure": "oral reading fluency, words correct per minute",
+      "reported_result": "Restates the Study B fluency result with additional visual analysis.",
+      "locator": "S-03:results:p2",
+      "lineage": { "study_id": "study-B", "report_id": "report-B2", "derived_from": ["report-B1"] }
+    },
+    {
+      "source_id": "S-04",
+      "label": "Synthetic Study C (2021)",
+      "design": "randomized group comparison",
+      "population": "students with mild intellectual disability",
+      "grades": "3-5",
+      "n": 58,
+      "outcome_measure": "oral reading fluency, words correct per minute",
+      "reported_result": "No difference between PRR and comparison on fluency at posttest; the report states the interval excludes an effect of the size seen in Study B.",
+      "locator": "S-04:results:table-3",
+      "lineage": { "study_id": "study-C", "report_id": "report-C1", "derived_from": [] }
+    },
+    {
+      "source_id": "S-05",
+      "label": "Synthetic Study D (2017)",
+      "design": "quasi-experimental group comparison",
+      "population": "students with mild intellectual disability",
+      "grades": "4-5",
+      "n": 31,
+      "outcome_measure": "passage comprehension, researcher-developed",
+      "reported_result": "PRR group scored higher on comprehension.",
+      "locator": "S-05:results:table-4",
+      "lineage": { "study_id": "study-D", "report_id": "report-D1", "derived_from": [] }
+    },
+    {
+      "source_id": "S-06",
+      "label": "Synthetic Study D, published correction (2020)",
+      "design": "correction notice",
+      "population": "students with mild intellectual disability",
+      "grades": "4-5",
+      "n": 31,
+      "outcome_measure": "passage comprehension, researcher-developed",
+      "reported_result": "An analysis error is corrected. The comprehension difference is no longer statistically significant and the interval is wide.",
+      "locator": "S-06:notice:para-2",
+      "lineage": { "study_id": "study-D", "report_id": "report-D2", "derived_from": ["report-D1"] }
+    },
+    {
+      "source_id": "S-07",
+      "label": "Synthetic Study E (2022)",
+      "design": "pre-post, single group",
+      "population": "students with mild intellectual disability",
+      "grades": "3-5",
+      "n": 19,
+      "outcome_measure": "reading engagement, teacher-rated survey",
+      "reported_result": "Teachers rated students as more engaged during reading after PRR. The abstract describes this as 'improved reading'.",
+      "locator": "S-07:abstract; S-07:measures:p4",
+      "lineage": { "study_id": "study-E", "report_id": "report-E1", "derived_from": [] }
+    },
+    {
+      "source_id": "S-08",
+      "label": "Synthetic Study F (2019)",
+      "design": "randomized group comparison",
+      "population": "students with specific learning disability",
+      "grades": "3-5",
+      "n": 84,
+      "outcome_measure": "oral reading fluency, words correct per minute",
+      "reported_result": "PRR group gained more words correct per minute than comparison at posttest.",
+      "locator": "S-08:results:table-2",
+      "lineage": { "study_id": "study-F", "report_id": "report-F1", "derived_from": [] }
+    }
+  ],
+  "propositions": [
+    {
+      "proposition_id": "P-1",
+      "subject": "Paired Rehearsal Routine",
+      "predicate": "improves",
+      "object": "oral reading fluency",
+      "scope": { "population": "students with mild intellectual disability", "grades": "3-5", "setting": "school, small group" },
+      "time": "immediate posttest",
+      "facts": {
+        "facts_origin": { "origin_type": "USER", "basis_type": "USER_INTERPRETATION", "note": "Recorded by a (fictional) annotator and second checker." },
+        "investigation": { "status": "COMPLETE", "rationale": "All eight reports screened for this scope." },
+        "adequacy": { "status": "ADEQUATE", "criterion": "At least one direct, independent evidence path measuring fluency in this population.", "rationale": "S-02 and S-04 are direct and independent of each other." },
+        "conflict": { "status": "PRESENT", "evidence_ids": ["ev-02", "ev-04"], "rationale": "Two independent studies in the same population report incompatible results on the same measure." },
+        "supersession": [],
+        "evidence": [
+          { "evidence_id": "ev-01", "source_id": "S-01", "relation": "QUALIFIES", "note": "Population mismatch: students with learning disability, not intellectual disability. Informs the question but is not direct evidence for this scope." },
+          { "evidence_id": "ev-02", "source_id": "S-02", "relation": "SUPPORTS", "note": "Direct. Small n; single-case design." },
+          { "evidence_id": "ev-03", "source_id": "S-03", "relation": "SUPPORTS", "note": "Same sample as S-02 (study-B). Not an independent replication." },
+          { "evidence_id": "ev-04", "source_id": "S-04", "relation": "AFFIRMATIVE_NEGATIVE", "note": "Direct. Larger group design; reports an interval that excludes the Study B effect size." },
+          { "evidence_id": "ev-07", "source_id": "S-07", "relation": "QUALIFIES", "note": "Construct mismatch: measures teacher-rated engagement, not fluency, despite the abstract's wording." }
+        ]
+      }
+    },
+    {
+      "proposition_id": "P-2",
+      "subject": "Paired Rehearsal Routine",
+      "predicate": "improves",
+      "object": "passage comprehension",
+      "scope": { "population": "students with mild intellectual disability", "grades": "4-5", "setting": "school, small group" },
+      "time": "immediate posttest",
+      "facts": {
+        "facts_origin": { "origin_type": "USER", "basis_type": "USER_INTERPRETATION", "note": "Recorded by a (fictional) annotator and second checker." },
+        "investigation": { "status": "COMPLETE", "rationale": "All eight reports screened for this scope." },
+        "adequacy": { "status": "INADEQUATE", "criterion": "A direct test precise enough to support either an effect or an affirmative absence of effect.", "rationale": "After correction, the only direct evidence is a non-significant estimate with a wide interval. That is not evidence of no effect." },
+        "conflict": { "status": "ABSENT", "evidence_ids": [], "rationale": "The original and corrected results are the same study; the correction replaces, it does not conflict." },
+        "supersession": [
+          { "prior_evidence_id": "ev-05", "replacement_evidence_id": "ev-06", "kind": "CORRECTED", "rationale": "S-06 is a published correction that explicitly replaces the S-05 analysis." }
+        ],
+        "evidence": [
+          { "evidence_id": "ev-05", "source_id": "S-05", "relation": "SUPPORTS", "note": "Original analysis, later corrected." },
+          { "evidence_id": "ev-06", "source_id": "S-06", "relation": "QUALIFIES", "note": "Corrected estimate; imprecise; neither supports nor rules out an effect." }
+        ]
+      }
+    },
+    {
+      "proposition_id": "P-3",
+      "subject": "Paired Rehearsal Routine",
+      "predicate": "produces fluency gains that are maintained",
+      "object": "oral reading fluency",
+      "scope": { "population": "students with mild intellectual disability", "grades": "3-5", "setting": "school" },
+      "time": "8 or more weeks after the routine is withdrawn",
+      "facts": {
+        "facts_origin": { "origin_type": "USER", "basis_type": "USER_INTERPRETATION", "note": "Recorded by a (fictional) annotator and second checker." },
+        "investigation": { "status": "COMPLETE", "rationale": "All eight reports screened for follow-up measurement." },
+        "adequacy": { "status": "INADEQUATE", "criterion": "At least one direct measurement of fluency after the routine is withdrawn.", "rationale": "No report in the corpus measured fluency after withdrawal." },
+        "conflict": { "status": "ABSENT", "evidence_ids": [], "rationale": "No evidence positions exist to compare." },
+        "supersession": [],
+        "evidence": []
+      }
+    },
+    {
+      "proposition_id": "P-4",
+      "subject": "Paired Rehearsal Routine",
+      "predicate": "improves",
+      "object": "oral reading fluency",
+      "scope": { "population": "students with specific learning disability", "grades": "3-5", "setting": "school, small group" },
+      "time": "immediate posttest",
+      "facts": {
+        "facts_origin": { "origin_type": "USER", "basis_type": "USER_INTERPRETATION", "note": "Recorded by a (fictional) annotator and second checker." },
+        "investigation": { "status": "COMPLETE", "rationale": "All eight reports screened for this scope." },
+        "adequacy": { "status": "ADEQUATE", "criterion": "At least two independent, direct evidence paths measuring fluency in this population.", "rationale": "S-01 and S-08 are separate studies with direct fluency measures in this population." },
+        "conflict": { "status": "ABSENT", "evidence_ids": [], "rationale": "No evidence in this scope reports an incompatible result." },
+        "supersession": [],
+        "evidence": [
+          { "evidence_id": "ev-01b", "source_id": "S-01", "relation": "SUPPORTS", "note": "Direct." },
+          { "evidence_id": "ev-08", "source_id": "S-08", "relation": "SUPPORTS", "note": "Direct; independent of S-01." }
+        ]
+      }
+    },
+    {
+      "proposition_id": "P-5",
+      "subject": "Paired Rehearsal Routine",
+      "predicate": "improves",
+      "object": "oral reading fluency",
+      "scope": { "population": "students with mild intellectual disability who use AAC", "grades": "3-5", "setting": "school" },
+      "time": "immediate posttest",
+      "facts": {
+        "facts_origin": { "origin_type": "USER", "basis_type": "USER_INTERPRETATION", "note": "Registered as a question by a (fictional) reviewer." },
+        "investigation": { "status": "NOT_STARTED", "rationale": "Registered as relevant because PRR depends on oral rehearsal. No search or screening has been done for this scope." },
+        "adequacy": { "status": "UNASSESSED", "criterion": "To be declared when investigation begins.", "rationale": "Adequacy cannot be assessed before investigation." },
+        "conflict": { "status": "ABSENT", "evidence_ids": [], "rationale": "No evidence positions exist to compare." },
+        "supersession": [],
+        "evidence": []
+      }
+    }
+  ]
+}
