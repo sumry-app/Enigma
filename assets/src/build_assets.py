@@ -185,22 +185,22 @@ def curve(x1, y1, x2, y2, stroke, width=1.0, opacity=1.0):
 
 
 def build_hero():
-    W, H = 1040, 520
+    W, H = 1040, 496
     rnd = random.Random(2026)
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
         'role="img" aria-label="Enigma concept: sources feed ordered rules that resolve into six evidence states">',
         f"<defs>{grain_defs()}</defs>",
-        f'<rect width="{W}" height="{H}" rx="14" fill="{INK}"/>',
+        f'<rect x=".5" y=".5" width="{W - 1}" height="{H - 1}" rx="14" fill="{INK}" stroke="{LINE}"/>',
     ]
 
-    top, pitch = 118, 38
+    top, pitch = 96, 38
     # Column headings
-    parts.append(text(40, 72, "SOURCES", 12, DIM, spacing=2))
-    parts.append(text(410, 72, "ENIGMA", 12, BONE, weight="700", spacing=2))
-    parts.append(text(484, 72, "ORDERED RULES", 12, DIM, spacing=2))
-    parts.append(text(680, 72, "EVIDENCE STATE", 12, DIM, spacing=2))
-    parts.append(f'<line x1="40" y1="88" x2="{W - 40}" y2="88" stroke="{LINE}" stroke-width="1"/>')
+    parts.append(text(40, 50, "SOURCES", 12, DIM, spacing=2))
+    parts.append(text(410, 50, "ENIGMA", 12, BONE, weight="700", spacing=2))
+    parts.append(text(484, 50, "ORDERED RULES", 12, DIM, spacing=2))
+    parts.append(text(680, 50, "EVIDENCE STATE", 12, DIM, spacing=2))
+    parts.append(f'<line x1="40" y1="66" x2="{W - 40}" y2="66" stroke="{LINE}" stroke-width="1"/>')
 
     # Rule panel
     rules = [
@@ -302,7 +302,7 @@ def build_concept():
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
         'role="img" aria-label="Design concept, not current implementation: inspecting one Enigma result">',
         f"<defs>{grain_defs()}</defs>",
-        f'<rect width="{W}" height="{H}" rx="14" fill="{INK}"/>',
+        f'<rect x=".5" y=".5" width="{W - 1}" height="{H - 1}" rx="14" fill="{INK}" stroke="{LINE}"/>',
     ]
 
     # Concept stamp: impossible to miss, and part of the image itself
